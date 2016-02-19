@@ -44,6 +44,7 @@ done
 
 
 check_files=`find $PRJ_ROOT -name '*.xib' -o -name '*.storyboard' -o -name '*.[mh]'  -o -name '*.pch' -o -name '*.java' -o -name '*.xml'`
+imagesetdirname=".imageset"
 
 for png in `find $PRJ_ROOT -name '*.png'`
 do
@@ -67,6 +68,12 @@ do
     dir_name=`dirname $png`
     if [[ $dir_name =~ .bundle$ ]] || [[ $dir_name =~ .appiconset$ ]] || [[ $dir_name =~ .launchimage$ ]]; then
       continue
+    fi
+    
+    #if is imageset,use imageset's name as match_name
+    if [[ $dir_name =~ .imageset$ ]]; then
+      match_name=`basename $dir_name`
+      match_name=${match_name%$imagesetdirname}
     fi
 
     referenced=false
